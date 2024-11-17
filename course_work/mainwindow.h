@@ -8,6 +8,7 @@
 //#include <QObject>
 #include "renderer.h"
 #include "scene.h"
+#include "camera.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,6 +30,7 @@ private:
     Renderer *renderer;
 
     Scene *scene;
+    Camera *camera;
 signals:
     void change_image_signal(QPixmap *, QColor );
     void draw_initial_image_signal(QPixmap *);

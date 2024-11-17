@@ -56,12 +56,11 @@ void Renderer::paint_carcas_all(QPixmap *pxmp, std::vector<Model3D> models)
         painter.drawLine( p3, p1 );
     }*/
 
-    std::map<int, QColor> color_square {{0, QColor(255, 255, 240)}, {1, QColor(131, 86, 62)},
-                                       {2, QColor(Qt::red)}, {3, QColor(Qt::yellow)},
-                                       {4, QColor(Qt::green)}, {5, QColor(Qt::cyan)},
-                                       {6, QColor(Qt::blue)}, {7, QColor(Qt::magenta)},
-                                        {8, QColor(246, 99, 8)}, {9, QColor(180, 75, 0)},
-                                        {10, QColor(255, 192, 203)}, {11, QColor(Qt::white)},
+    std::map<int, QColor> color_square {
+                                       {0, QColor(Qt::red)}, {1, Qt::black},  {2, QColor(Qt::yellow)},
+                                       {3, QColor(Qt::green)}, {4, QColor(Qt::cyan)},
+                                       {5, QColor(Qt::blue)}, {6, QColor(Qt::magenta)},
+                                        {7, QColor(Qt::white)},
                                        };
 
     QPainter painter(pxmp);
@@ -71,7 +70,8 @@ void Renderer::paint_carcas_all(QPixmap *pxmp, std::vector<Model3D> models)
         ///painter.setPen(QPen(model.borderColor, 1, Qt::SolidLine));
         for (auto& edge: model._edges)
         {
-            painter.setPen(QPen(color_square[col], 1, Qt::SolidLine));
+            //painter.setPen(QPen(color_square[col], 1, Qt::SolidLine));
+            painter.setPen(QPen(model.borderColor, 1, Qt::SolidLine));
             col++;
             QPointF p1 =  {edge._points[0][0], edge._points[0][1]};
             QPointF p2 =  {edge._points[1][0], edge._points[1][1]};
@@ -122,6 +122,18 @@ void sort_points_y(std::vector<QPointF> & vec)
     }
 }
 
+/*float calculateDepth(int x, int y, const QPointF &p1, const QPointF &p2, const QPointF &p3) {
+    // Здесь можно использовать барицентрические координаты или другую формулу
+    // для вычисления глубины в зависимости от x и y.
+    // Например:
+    float alpha = ((p2.y() - p3.y()) * (x - p3.x()) + (p3.x() - p2.x()) * (y - p3.y())) /
+                   ((p2.y() - p3.y()) * (p1.x() - p3.x()) + (p3.x() - p2.x()) * (p1.y() - p3.y()));
+    float beta = ((p3.y() - p1.y()) * (x - p3.x()) + (p1.x() - p3.x()) * (y - p3.y())) /
+                  ((p2.y() - p3.y()) * (p1.x() - p3.x()) + (p3.x() - p2.x()) * (p1.y() - p3.y()));
+    float gamma = 1.0f - alpha - beta;
+
+    return alpha * p1.z() + beta * p2.z() + gamma * p3.z(); // Предполагается, что у вас есть z-координаты у точек
+}*/
 
 void Renderer::fill_color_edges(QPixmap *pxmp, std::vector<Model3D> models)
 {
@@ -136,14 +148,15 @@ void Renderer::fill_color_edges(QPixmap *pxmp, std::vector<Model3D> models)
                                         {10, QColor(255, 192, 203)}, {11, QColor(Qt::white)},
                                        };
 
-    int col = 0;
+    //int col = 0;
     for (auto& model: models)
     {
 
         for (auto& edge: model._edges)
         {
-            painter.setPen(QPen(color_square[col], Qt::DashLine ));
-            col++;
+            //painter.setPen(QPen(color_square[col], Qt::DashLine ));
+            painter.setPen(QPen(model.bodyColor, Qt::DashLine ));
+            //col++;
             //1. get three points of current triangle and sort them by y
             QPointF q1 =  {edge._points[0][0], edge._points[0][1]};
             QPointF q2 =  {edge._points[1][0], edge._points[1][1]};

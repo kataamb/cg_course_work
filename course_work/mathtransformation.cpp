@@ -1,6 +1,8 @@
 #include "mathtransformation.h"
 #include <cmath>
 
+#include <QMatrix4x4>
+
 MathTransformation::MathTransformation(QObject *parent)
     : QObject{parent}
 {
@@ -16,6 +18,7 @@ void MathTransformation::move_model( Model3D & model, QVector3D bias )
             move_point(point, bias);
         }
     }
+    move_point(model._centre, bias);
 }
 void MathTransformation::rotate_model( Model3D & model, QVector3D angle, QVector4D centre )
 {
@@ -26,10 +29,13 @@ void MathTransformation::rotate_model( Model3D & model, QVector3D angle, QVector
             rotate_point(point, angle, centre);
         }
     }
-}
-void MathTransformation::move_model_on_pos( Model3D & model, QVector3D new_position )
-{
+    rotate_point(model._centre, angle, centre);
 
+}
+void MathTransformation::move_model_on_pos( Model3D & model, QVector3D newPos )
+{
+    QVector3D bias {newPos[0] - model._centre[0], newPos[0] - model._centre[0], newPos[0] - model._centre[0]};
+    move_model(model, bias);
 }
 
 //----private methods
@@ -54,6 +60,7 @@ void MathTransformation::move_point(QVector4D &point, QVector3D bias)
         point[i] = cur_val;
     }
 }
+
 void MathTransformation::rotate_point( QVector4D &point, QVector3D angle, QVector4D centre )
 {
     QVector4D vector_bias=  {point[0] - centre[0], point[1] - centre[1], point[2] - centre[2], 0};
@@ -86,6 +93,7 @@ void MathTransformation::rotate_vector_x(QVector4D &vector, float angX)
     };
 
 
+    QVector4D copy(vector);
     for (int i = 0; i < 4; ++i)
     {
         float cur_val = 0;
@@ -93,8 +101,9 @@ void MathTransformation::rotate_vector_x(QVector4D &vector, float angX)
         {
             cur_val += Matrix[i][j] * vector[j];
         }
-        vector[i] = cur_val;
-     }
+        copy[i] = cur_val;
+    }
+    vector = copy;
 }
 
 void MathTransformation::rotate_vector_y(QVector4D &vector, float angY)
@@ -111,7 +120,7 @@ void MathTransformation::rotate_vector_y(QVector4D &vector, float angY)
                 { 0, 0, 0, 1       }
     };
 
-
+    QVector4D copy(vector);
     for (int i = 0; i < 4; ++i)
     {
         float cur_val = 0;
@@ -119,8 +128,9 @@ void MathTransformation::rotate_vector_y(QVector4D &vector, float angY)
         {
             cur_val += Matrix[i][j] * vector[j];
         }
-        vector[i] = cur_val;
+        copy[i] = cur_val;
      }
+    vector = copy;
 }
 
 void MathTransformation::rotate_vector_z(QVector4D &vector, float angZ)
@@ -137,7 +147,7 @@ void MathTransformation::rotate_vector_z(QVector4D &vector, float angZ)
                 { 0, 0, 0, 1 }
     };
 
-
+    QVector4D copy(vector);
     for (int i = 0; i < 4; ++i)
     {
         float cur_val = 0;
@@ -145,13 +155,8 @@ void MathTransformation::rotate_vector_z(QVector4D &vector, float angZ)
         {
             cur_val += Matrix[i][j] * vector[j];
         }
-        vector[i] = cur_val;
+        copy[i] = cur_val;
      }
-}
-
-
-void MathTransformation::move_point_to_new_pos(QVector4D &point, QVector3D bias)
-{
-
+    vector = copy;
 }
 

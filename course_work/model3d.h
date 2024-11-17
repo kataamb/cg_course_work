@@ -18,8 +18,10 @@ public:
     QColor bodyColor;
     QColor borderColor;
 
-    QVector3D _centre;
+    QVector4D _centre;
+    void set_centre(QVector4D centre);
     void set_centre(QVector3D centre);
+    void rotate(float angleX, float angleY, float angleZ);
 private:
 
 

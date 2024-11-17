@@ -26,6 +26,7 @@ public:
     ModelCubeBuilder(QObject *parent = nullptr);
 
     Model3D build_cube(float length, QColor bodyColor = Qt::white, QColor boardColor = Qt::white);
+    Model3D build_torus(float R, float r, int N, int M, QColor bodyColor = Qt::white, QColor boardColor = Qt::white);
 public slots:
     //void build_cube_model(Model3D *model, float length, QColor bodyColor = Qt::white, QColor boardColor = Qt::black); //model already created with  new
     //define copy constructor for model3d
@@ -34,6 +35,25 @@ public slots:
 signals:
     void ready_cube_model_signal(Model3D model);
 private:
+
+};
+
+class ModelTorusBuilder: public ModelBuilder
+{
+    Q_OBJECT
+public:
+    ModelTorusBuilder(QObject *parent = nullptr);
+
+    Model3D build_torus(float R, float r, int N, int M, QColor bodyColor = Qt::white, QColor boardColor = Qt::white);
+public slots:
+    //void build_cube_model(Model3D *model, float length, QColor bodyColor = Qt::white, QColor boardColor = Qt::black); //model already created with  new
+    //define copy constructor for model3d
+    //void build_cube_model(Model3D *model, float length, QColor bodyColor = Qt::white, QColor boardColor = Qt::black);
+
+signals:
+    void ready_cube_model_signal(Model3D model);
+private:
+
 
 };
 
