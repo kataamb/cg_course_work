@@ -16,9 +16,9 @@ public:
 
     void make_initial_state();
 
-    void add_light_source(Light light);
+    //void add_light_source(Light light);
 
-    std::vector<Light> get_light_sources();
+    Light get_light_sources();
     /*void rotate();
     void move();
     void move_check();*/
@@ -27,7 +27,8 @@ private:
     //std::vector<Model3D> whiteChecks;
     //std::vector<Model3D> blackChecks;
 
-    std::vector<Light> lightSources;
+    //std::vector<Light> lightSources;
+    Light lightSource;
 
 
     QVector3D centreScene;

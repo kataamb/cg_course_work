@@ -12,7 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-
+    this->imWidth = 9669;
+    this->imHeight = 1079;
     img = new QImage(9669, 1079, QImage::Format_ARGB32);
     img->fill(QColor(	212, 116, 121)); //141,  29,  44       255,239,213
 
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     scene = new Scene;
 
-    renderer->draw_initial_image(pxmp, scene->get_all_models());//method to draw image
+    renderer->draw_initial_image(pxmp, scene->get_all_models(), scene->get_light_sources());//method to draw image
     ui->labelView->setPixmap(*pxmp);
 
 }

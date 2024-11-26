@@ -150,19 +150,6 @@ Model3D ModelTorusBuilder::build_torus(float R, float r, int N, int M, QColor bo
     {
         for (int j = 0; j < M; ++j )
         {
-            //ind1 = j + M * i, ind2 = (j+1)%M + M * i, ind3 = j + (M * i + M) % N, ind4 = (j + 1 + (M * i + M) % N)%M;
-            //ind1 = j + M * i, ind2 = j+1 + M * i, ind3 = i * M + (j + 1), ind4 = (i + 1) * M + (j + 1);
-
-            //torus.add_edge({torusPoints[ind1], torusPoints[ind2], torusPoints[ind3]});
-            //torus.add_edge({torusPoints[ind2], torusPoints[ind3], torusPoints[ind4]});
-            //torus.add_edge({torusByPoints[i][ j ], torusByPoints[i][ j+1 ],torusByPoints[i][ j+2 ], color_square[i], color_square[i]});
-            //i j, i j+1, i+1 j, i+1 j+1
-            //i j, i (j+1)%M, (i+1)%N j, (i+1)%N (j+1)%M
-            /*if ((i >=3) && (i < 5))
-            {
-                torus.add_edge({torusByPoints[i][j], torusByPoints[i][(j+1)], torusByPoints[(i+1)][ j ]});
-                torus.add_edge({torusByPoints[i][(j+1) ], torusByPoints[(i+1)][ j ], torusByPoints[(i+1)][ (j+1) ]});
-            }*/
             torus.add_edge({torusByPoints[i][j], torusByPoints[i][(j+1)%M], torusByPoints[(i+1)%N][ j ]});
             torus.add_edge({torusByPoints[i][(j+1)%M ], torusByPoints[(i+1)%N][ j ], torusByPoints[(i+1)%N][ (j+1)%M ]});
 
@@ -174,4 +161,6 @@ Model3D ModelTorusBuilder::build_torus(float R, float r, int N, int M, QColor bo
     torus.set_centre({0, 0, 0});
     return torus;
 }
+
+//-----------------------------------------------------------------------------------------------------------
 

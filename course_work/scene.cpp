@@ -7,6 +7,7 @@ Scene::Scene(QObject *parent)
     : QObject{parent}
 {
     this->centreScene = {500, 500, 0};
+    this->lightSource = Light();
 
     make_initial_state();
 }
@@ -14,7 +15,7 @@ Scene::Scene(QObject *parent)
 
 void Scene::make_initial_state()
 {
-    float square_length = 100;
+    float square_length = 200;
     std::map<int, QColor> color_square {{0, QColor(255, 255, 240)}, {1, QColor(131, 86, 62)}};
 
     this->_centreComposition = {this->centreScene[0], this->centreScene[1], 0, 1};
@@ -22,6 +23,7 @@ void Scene::make_initial_state()
 
 
     ModelCubeBuilder cubeBuilder;
+    ModelTorusBuilder torusBuilder;
 
     /*for (int i = 0; i < 8; ++i)
     {
@@ -54,10 +56,23 @@ void Scene::make_initial_state()
     //debug
     QColor color_body = Qt::green;
     Model3D curr_model = cubeBuilder.build_cube(square_length, color_body, color_body);
-    QVector3D ang{360, 360, 0};
-    this->_positionChanger.rotate_model(curr_model, ang, {50, 50, 50, 1});
+    Model3D curr_torus = torusBuilder.build_torus(200, 100, 100, 100);
+    QVector3D ang{0, 0, 0};
+
+
+    //this->_positionChanger.rotate_model(curr_torus, ang, curr_torus._centre);
+
     this->_positionChanger.move_model(curr_model, {200, 200, 0});
+    this->_positionChanger.move_model(curr_torus, {600, 600, 0});
+
+    //this->_positionChanger.rotate_model(curr_torus, {50, 90, 0}, curr_torus._centre);
+    //this->_positionChanger.rotate_model(curr_torus, {90, 0, 0}, this->centreScene);
+    //this->_positionChanger.rotate_model(curr_model, {90, 0, 0}, this->centreScene);
+
+    std::cout << curr_torus._centre[0] << " " << curr_torus._centre[1] << " " << std::endl;
+
     this->chessBoardSquares.push_back(curr_model);
+    this->chessBoardSquares.push_back(curr_torus);
 
 }
 
@@ -75,9 +90,9 @@ std::vector<Model3D> Scene::get_all_models()
     return models;
 }
 
-std::vector<Light> Scene::get_light_sources()
+Light Scene::get_light_sources()
 {
-    return lightSources;
+    return lightSource;
 }
 
 

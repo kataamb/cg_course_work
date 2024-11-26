@@ -1,18 +1,31 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+#include "color.h"
 #include <QVector3D>
-#include <QColor>
+#include <QVector4D>
+
+struct LightAttr
+{
+    Color color;
+    QVector4D position;
+    QVector4D target;
+    float intensity;
+};
 
 class Light
 {
 public:
     Light();
-    Light(QVector3D pposition, float intencity, QColor color = Qt::white);
+    Light(const LightAttr &attr);
+    float getI() const { return intensity; }
+    QVector4D getPos() const { return position; }
+    QVector4D getDir() const;
 private:
-    QVector3D _position;
-    QColor _color;
-    float _intencity;
+    Color color;
+    QVector4D target;
+    QVector4D position;
+    float intensity;
 };
 
 #endif // LIGHT_H

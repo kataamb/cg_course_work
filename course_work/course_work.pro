@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     camera.cpp \
+    color.cpp \
     edge3d.cpp \
     light.cpp \
     main.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     camera.h \
+    color.h \
     edge3d.h \
     light.h \
     mainwindow.h \

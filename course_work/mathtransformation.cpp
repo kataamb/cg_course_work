@@ -38,6 +38,31 @@ void MathTransformation::move_model_on_pos( Model3D & model, QVector3D newPos )
     move_model(model, bias);
 }
 
+
+QVector4D MathTransformation::calcNormal(QVector4D p1, QVector4D p2, QVector4D p3)
+{
+    QVector4D normal;
+    QVector4D vector1  {p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2], 1};
+    QVector4D vector2 {p3[0] - p1[0], p3[1] - p1[1], p3[2] - p1[2], 1};
+
+    normal[0] = vector1[1] * vector2[2] - vector1[2] * vector2[1];
+    normal[1] = vector1[2] * vector2[0] - vector1[0] * vector2[2];
+    normal[2] = vector1[0] * vector2[1] - vector1[1] * vector2[0];
+    normal[3] = 0;
+
+    double length = std::sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
+    normal[0] /= length;
+    normal[1] /= length;
+    normal[2] /= length;
+    return normal;
+}
+
+float MathTransformation::scalarProduct(const QVector4D &vec1, const QVector4D &vec2)
+{
+    return QVector4D::dotProduct(vec1, vec2);
+}
+
+
 //----private methods
 
 void MathTransformation::move_point(QVector4D &point, QVector3D bias)

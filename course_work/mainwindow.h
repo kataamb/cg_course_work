@@ -21,11 +21,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    int getWidth(){return imWidth;}
+    int getHeight(){return imHeight;}
 
 private:
     Ui::MainWindow *ui;
     QImage *img;
     QPixmap *pxmp;
+    int imWidth;
+    int imHeight;
 
     Renderer *renderer;
 

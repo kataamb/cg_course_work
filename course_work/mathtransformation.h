@@ -26,6 +26,9 @@ public:
     void rotate_point( QVector4D &point, QVector3D angle, QVector4D centre );
     void move_point_to_new_pos(QVector4D &point, QVector3D bias); //point, position*/
 
+    QVector4D calcNormal(QVector4D p1, QVector4D p2, QVector4D p3);
+    float scalarProduct(const QVector4D &vec1, const QVector4D &vec2);
+
     private:
 
     void rotate_vector_x(QVector4D &vector, float angX);

@@ -58,13 +58,12 @@ private:
 };
 
 
-/*class ModelCylinderBuilder
+/*class ModelCylinderBuilder: public ModelBuilder
 {
     Q_OBJECT
 public:
     ModelCylinderBuilder(QObject *parent = nullptr);
-
-
+    Model3D build_cylinder(float h, float r, int N, QColor bodyColor = Qt::white, QColor boardColor = Qt::white);
 
 
 signals:
