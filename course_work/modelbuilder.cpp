@@ -113,7 +113,7 @@ Model3D ModelTorusBuilder::build_torus(float R, float r, int N, int M, QColor bo
         float y = r * sin(j * 2 * M_PI / M);
         float z = 0;
 
-        std::cout << j << " " << j * 2 * M_PI / M << std::endl;
+        //std::cout << j << " " << j * 2 * M_PI / M << std::endl;
 
         circlePoints.push_back({x, y, z, 1});
     }
@@ -145,22 +145,129 @@ Model3D ModelTorusBuilder::build_torus(float R, float r, int N, int M, QColor bo
     }
 
     //we have array of points; now have to connect them to edges
-    int ind1, ind2, ind3, ind4;
     for (int i = 0; i < N; ++i )
     {
         for (int j = 0; j < M; ++j )
         {
-            torus.add_edge({torusByPoints[i][j], torusByPoints[i][(j+1)%M], torusByPoints[(i+1)%N][ j ]});
-            torus.add_edge({torusByPoints[i][(j+1)%M ], torusByPoints[(i+1)%N][ j ], torusByPoints[(i+1)%N][ (j+1)%M ]});
+            // Первая грань
+            torus.add_edge({torusByPoints[i][j], torusByPoints[(i+1)%N][j], torusByPoints[i][(j+1)%M]});
 
+            // Вторая грань
+            torus.add_edge({torusByPoints[i][(j+1)%M], torusByPoints[(i+1)%N][j], torusByPoints[(i+1)%N][(j+1)%M]});
         }
     }
 
     torus.bodyColor = bodyColor;
     torus.borderColor = boardColor;
     torus.set_centre({0, 0, 0});
+
+    //torus.fix_edges_orientation();
+
     return torus;
 }
 
 //-----------------------------------------------------------------------------------------------------------
+ModelCylinderBuilder::ModelCylinderBuilder(QObject *parent)
+    : ModelBuilder{parent}
+    {
+
+    }
+
+
+//cylinder
+//void generateCylinder(float height, float radius, int divisions) {
+Model3D ModelCylinderBuilder::build_cylinder(float h, float r, int N, QColor bodyColor , QColor boardColor)
+{
+      Model3D cylinder;
+       // Создаем верхнюю и нижнюю окружности
+       std::vector<QVector4D> topCircle;
+       std::vector<QVector4D> bottomCircle;
+
+       // Вычисляем углы и создаем точки
+       for (int i = 0; i < N; ++i) {
+           float angle = (2.0f * M_PI * i) / N;
+           float x = r * cos(angle);
+           float z = r * sin(angle);
+
+           // Верхняя окружность
+           topCircle.push_back(QVector4D(x, h / 2, z, 1.0f));
+           // Нижняя окружность
+           bottomCircle.push_back(QVector4D(x, -h / 2, z, 1.0f));
+       }
+
+       // Создаем боковые грани
+       for (int i = 0; i < N; ++i) {
+           int next = (i + 1) % N;
+
+           // Верхний треугольник
+           cylinder.add_edge(Edge3D(topCircle[i], bottomCircle[i], bottomCircle[next]));
+
+           // Нижний треугольник
+           cylinder.add_edge(Edge3D(topCircle[i], bottomCircle[next], topCircle[next]));
+       }
+
+       // Добавляем верхнее основание
+       QVector4D centerTop(0, h / 2, 0, 1.0f);
+       for (int i = 0; i < N; ++i) {
+           cylinder.add_edge(Edge3D(centerTop, topCircle[i], topCircle[(i + 1) % N]));
+       }
+
+       // Добавляем нижнее основание
+       QVector4D centerBottom(0, -h / 2, 0, 1.0f);
+       for (int i = 0; i < N; ++i) {
+           cylinder.add_edge(Edge3D(centerBottom, bottomCircle[i], bottomCircle[(i + 1) % N]));
+       }
+
+       cylinder.bodyColor = bodyColor;
+       cylinder.borderColor = boardColor;
+       cylinder.set_centre({0, 0, 0});
+
+       return cylinder;
+   }
+
+
+
+//----------------------------------------------------------------------
+//check model builder
+ModelCheckBuilder::ModelCheckBuilder(QObject *parent)
+    : ModelBuilder{parent}
+    {
+
+    }
+
+Model3D ModelCheckBuilder::build_check(float R, float r, float h, int N, int M, QColor bodyColor, QColor boardColor) {
+    Model3D intersection;
+
+    ModelCylinderBuilder cylinderBuilder;
+    ModelTorusBuilder torusBuilder;
+
+    // Создаем тор
+    Model3D torus = torusBuilder.build_torus(R-r + r/10, r, N, M, bodyColor, boardColor);
+
+    // Создаем цилиндр
+    Model3D cylinder = cylinderBuilder.build_cylinder(h, R, N, bodyColor, boardColor);
+
+    // Перемещаем тор так, чтобы его центр совпадал с верхней гранью цилиндра
+    MathTransformation transform;
+    QVector3D bias(0, h / 2, 0);
+
+    transform.move_model(torus, bias);
+
+    // Объединяем точки и грани тора и цилиндра
+    for (auto & edge: torus._edges)
+    {
+        intersection.add_edge(edge);
+    }
+
+    for (auto & edge: cylinder._edges)
+    {
+        intersection.add_edge(edge);
+    }
+
+    intersection.bodyColor = bodyColor;
+    intersection.borderColor = boardColor;
+    intersection.set_centre({0, 0, 0});
+
+    return intersection;
+}
 

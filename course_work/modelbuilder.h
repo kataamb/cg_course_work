@@ -51,22 +51,31 @@ public slots:
     //void build_cube_model(Model3D *model, float length, QColor bodyColor = Qt::white, QColor boardColor = Qt::black);
 
 signals:
-    void ready_cube_model_signal(Model3D model);
+
 private:
 
 
 };
 
 
-/*class ModelCylinderBuilder: public ModelBuilder
+class ModelCylinderBuilder: public ModelBuilder
 {
     Q_OBJECT
 public:
     ModelCylinderBuilder(QObject *parent = nullptr);
     Model3D build_cylinder(float h, float r, int N, QColor bodyColor = Qt::white, QColor boardColor = Qt::white);
 
+signals:
+};
+
+class ModelCheckBuilder: public ModelBuilder
+{
+    Q_OBJECT
+public:
+    ModelCheckBuilder(QObject *parent = nullptr);
+    Model3D build_check(float R, float r, float h, int N, int M, QColor bodyColor, QColor boardColor);
 
 signals:
-};*/
+};
 
 #endif // MODELBUILDER_H

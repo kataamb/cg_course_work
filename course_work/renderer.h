@@ -27,13 +27,17 @@ public:
     void fill_color_edges(QPixmap *pxmp, std::vector<Model3D> models);
     void render_all_models(QPixmap *pxmp, std::vector<Model3D> models, Light & light);
 
-    void render_edge(QPixmap *pxmp, QPainter & painter, Edge3D & edge, Color color, Light light);
+    void render_edge(QPixmap *pxmp, QPainter & painter, Model3D & model, Edge3D & edge, Color color, Light light);
     //void make_shaded_edges();
 
     //void cut_invisible_edges();
 
     //void draw_initial_image(QPixmap *pxmp, std::vector<Model3D> models,  Light & light);
     void draw_initial_image(QPixmap *pxmp, std::vector<Model3D> models, Light light);
+    Color calculate_phong_lighting(const Color &materialColor,
+                                           const QVector4D &normal,
+                                           const Light &light,
+                                           const QVector4D &point);
 
 
     //---
@@ -51,6 +55,8 @@ private:
      std::vector<std::vector<double>> zBuf; // z-буфер
 
      MathTransformation mth;//for different math operations and transformations
+
+     void clearZBuffer();
 
 
      ////ModelCubeBuilder cubeBuilder;

@@ -9,7 +9,22 @@ Edge3D::Edge3D(QVector4D p1, QVector4D p2, QVector4D p3, QColor bodyColor, QColo
 
     this->bodyColor = bodyColor;
     this->borderColor = borderColor;
+    calculate_normal();
 }
+
+void Edge3D::calculate_normal()
+{
+    QVector4D p1 = _points[0],  p2 = _points[1],  p3 = _points[2];
+    // Вычисляем нормаль
+           QVector3D v1(p2.x() - p1.x(), p2.y() - p1.y(), p2.z() - p1.z());
+           QVector3D v2(p3.x() - p1.x(), p3.y() - p1.y(), p3.z() - p1.z());
+           QVector3D normal = QVector3D::crossProduct(v1, v2);
+           normal.normalize();
+
+           // Преобразуем в QVector4D (w = 0 для векторов)
+           _plane_normal = QVector4D(normal.x(), normal.y(), normal.z(), 0.0f);
+}
+
 
 Edge3D::Edge3D(QVector4D p1, QVector4D p2, QVector4D p3, QVector4D normal)
 {

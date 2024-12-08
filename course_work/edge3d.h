@@ -12,6 +12,8 @@ public:
     Edge3D(QVector4D p1, QVector4D p2, QVector4D p3, QColor bodyColor=Qt::white, QColor borderColor=Qt::black);
     Edge3D(QVector4D p1, QVector4D p2, QVector4D p3, QVector4D normal);
 
+    void calculate_normal();
+
 
     Edge3D(const Edge3D &edge);
     Edge3D& operator=(const Edge3D &edge);

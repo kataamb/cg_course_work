@@ -4,7 +4,7 @@ Light::Light()
 {
     color = Color(255, 255, 255);
     target = QVector4D(0.0f, 0.0f, 0.0f, 1);
-    position = QVector4D(0.0f, 0.0f, 100.0f, 1);
+    position = QVector4D(500, 500, 0.0f, 1);
     intensity = 1.0;
 }
 

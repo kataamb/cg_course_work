@@ -24,8 +24,8 @@ public:
     void move_check();*/
 private:
     std::vector<Model3D> chessBoardSquares;
-    //std::vector<Model3D> whiteChecks;
-    //std::vector<Model3D> blackChecks;
+    std::vector<Model3D> whiteChecks;
+    std::vector<Model3D> blackChecks;
 
     //std::vector<Light> lightSources;
     Light lightSource;

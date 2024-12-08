@@ -32,11 +32,11 @@ private:
     int imHeight;
 
     Renderer *renderer;
-
     Scene *scene;
     Camera *camera;
+
+
 signals:
-    void change_image_signal(QPixmap *, QColor );
-    void draw_initial_image_signal(QPixmap *);
+
 };
 #endif // MAINWINDOW_H

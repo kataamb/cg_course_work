@@ -8,6 +8,7 @@ Model3D::Model3D()
 
 }
 
+
 Model3D::Model3D(std::vector<Edge3D> edges, QColor bodyColor, QColor borderColor)
 {
     this->bodyColor = bodyColor;
@@ -70,5 +71,58 @@ void Model3D::rotate(float angleX, float angleY, float angleZ)
     // Если необходимо, можно обновить центр модели
     // Например, можно пересчитать центр после поворота.
     std::cout << this->_edges.size() << std::endl;
+}
+
+
+void Model3D::fix_edges_orientation() {
+    for (auto& edge : _edges) {
+        // Проверяем, смотрит ли нормаль наружу
+        QVector3D centreToFace = (edge._points[0].toVector3D() - _centre.toVector3D());
+        if (QVector3D::dotProduct(edge._plane_normal.toVector3D(), centreToFace) > 0) {
+            // Если нормаль направлена внутрь, меняем порядок вершин
+            std::swap(edge._points[1], edge._points[2]);
+            edge.calculate_normal();  // Пересчитываем нормаль
+        }
+    }
+}
+
+void  Model3D::calculateVertexNormals() {
+    // Очищаем старые нормали
+    vertexNormals.clear();
+
+    // Словарь для накопления нормалей для каждой вершины
+    std::map<QVector4D, QVector3D, Vector4DCompare> tempNormals;
+    std::map<QVector4D, int, Vector4DCompare> vertexCount;
+
+    // Проходим по всем граням
+    for (const auto& edge : _edges) {
+        // Вычисляем нормаль грани
+        QVector3D v1 = (edge._points[1] - edge._points[0]).toVector3D();
+        QVector3D v2 = (edge._points[2] - edge._points[0]).toVector3D();
+        QVector3D faceNormal = QVector3D::crossProduct(v1, v2);
+        faceNormal.normalize();
+
+        // Добавляем нормаль грани к каждой вершине
+        for (int i = 0; i < 3; ++i) {
+            tempNormals[edge._points[i]] += faceNormal;
+            vertexCount[edge._points[i]]++;
+        }
+    }
+
+    // Вычисляем среднюю нормаль для каждой вершины
+    for (auto& pair : tempNormals) {
+        QVector3D avgNormal = pair.second / vertexCount[pair.first];
+        avgNormal.normalize();
+        vertexNormals[pair.first] = QVector4D(avgNormal, 0);
+    }
+}
+
+// Получение нормали для вершины
+QVector4D Model3D::getVertexNormal(const QVector4D& vertex) const {
+    auto it = vertexNormals.find(vertex);
+    if (it != vertexNormals.end()) {
+        return it->second;
+    }
+    return QVector4D(0, 0, 1, 0); // дефолтная нормаль, если не найдена
 }
 

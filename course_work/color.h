@@ -12,6 +12,7 @@ class Color
 public:
     Color();
     Color(const int rVal, const int gVal, const int bVal);
+    Color(const QColor& color);
     void setR(const int val) {r = val;};
     void setG(const int val) {g = val;};
     void setB(const int val) {b = val;};

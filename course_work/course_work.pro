@@ -12,6 +12,7 @@ SOURCES += \
     camera.cpp \
     color.cpp \
     edge3d.cpp \
+    gamemanager.cpp \
     light.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     camera.h \
     color.h \
     edge3d.h \
+    gamemanager.h \
     light.h \
     mainwindow.h \
     mathtransformation.h \

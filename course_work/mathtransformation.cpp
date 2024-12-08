@@ -17,6 +17,7 @@ void MathTransformation::move_model( Model3D & model, QVector3D bias )
         {
             move_point(point, bias);
         }
+        edge.calculate_normal();
     }
     move_point(model._centre, bias);
 }
@@ -28,13 +29,14 @@ void MathTransformation::rotate_model( Model3D & model, QVector3D angle, QVector
         {
             rotate_point(point, angle, centre);
         }
+        edge.calculate_normal();
     }
     rotate_point(model._centre, angle, centre);
 
 }
 void MathTransformation::move_model_on_pos( Model3D & model, QVector3D newPos )
 {
-    QVector3D bias {newPos[0] - model._centre[0], newPos[0] - model._centre[0], newPos[0] - model._centre[0]};
+    QVector3D bias {newPos[0] - model._centre[0], newPos[1] - model._centre[1], newPos[2] - model._centre[2]};
     move_model(model, bias);
 }
 

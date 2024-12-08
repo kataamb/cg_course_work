@@ -19,3 +19,13 @@ Color::Color(const int rVal, const int gVal, const int bVal)
     i_g = gVal;
     i_b = bVal;
 }
+
+Color::Color(const QColor& color)
+{
+    r = color.red();
+    g = color.green();
+    b = color.blue();
+    i_r = color.red();
+    i_g = color.green();
+    i_b = color.blue();
+}
