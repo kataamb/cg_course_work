@@ -19,6 +19,8 @@ public:
     //void add_light_source(Light light);
 
     Light get_light_sources();
+
+    void rotate_composition(QVector3D angle);
     /*void rotate();
     void move();
     void move_check();*/
@@ -39,9 +41,13 @@ private:
 
     QVector4D _centreComposition;
 
+    QVector4D _initialAngle;
+
+    QVector4D _currentAngle;
 
 
-    void move_item(Model3D &item, QVector3D bias);
+
+
 signals:
     void changed_scene_objects();
 

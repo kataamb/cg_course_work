@@ -10,8 +10,10 @@ CONFIG += c++11
 
 SOURCES += \
     camera.cpp \
+    checkcoordinate.cpp \
     color.cpp \
     edge3d.cpp \
+    gamecheck.cpp \
     gamemanager.cpp \
     light.cpp \
     main.cpp \
@@ -24,8 +26,10 @@ SOURCES += \
 
 HEADERS += \
     camera.h \
+    checkcoordinate.h \
     color.h \
     edge3d.h \
+    gamecheck.h \
     gamemanager.h \
     light.h \
     mainwindow.h \

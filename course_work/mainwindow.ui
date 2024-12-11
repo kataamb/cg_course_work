@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1646</width>
-    <height>1140</height>
+    <width>1737</width>
+    <height>801</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>10</y>
       <width>661</width>
       <height>1071</height>
@@ -27,7 +27,7 @@
      <item row="0" column="0">
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabView">
         <attribute name="title">
@@ -36,20 +36,13 @@
         <widget class="QWidget" name="horizontalLayoutWidget_4">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>350</y>
-           <width>501</width>
+           <x>20</x>
+           <y>250</y>
+           <width>621</width>
            <height>80</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Поместить на координаты:</string>
-            </property>
-           </widget>
-          </item>
           <item>
            <widget class="QDoubleSpinBox" name="newPosX"/>
           </item>
@@ -71,20 +64,13 @@
         <widget class="QWidget" name="horizontalLayoutWidget_2">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>450</y>
-           <width>501</width>
+           <x>20</x>
+           <y>420</y>
+           <width>621</width>
            <height>80</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Переместить на:</string>
-            </property>
-           </widget>
-          </item>
           <item>
            <widget class="QDoubleSpinBox" name="biasX"/>
           </item>
@@ -106,28 +92,45 @@
         <widget class="QWidget" name="horizontalLayoutWidget">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>240</y>
-           <width>501</width>
+           <x>20</x>
+           <y>90</y>
+           <width>621</width>
            <height>81</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayoutAng">
           <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Повернуть на угол:</string>
+           <widget class="QDoubleSpinBox" name="angleX">
+            <property name="minimum">
+             <double>-360.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>360.000000000000000</double>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="angleX"/>
+           <widget class="QDoubleSpinBox" name="angleY">
+            <property name="minimum">
+             <double>-360.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>360.000000000000000</double>
+            </property>
+           </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="angleY"/>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="angleZ"/>
+           <widget class="QDoubleSpinBox" name="angleZ">
+            <property name="minimum">
+             <double>-360.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>360.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="buttonRotate">
@@ -141,8 +144,8 @@
         <widget class="QPushButton" name="buttoninitialState">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>560</y>
+           <x>90</x>
+           <y>620</y>
            <width>361</width>
            <height>61</height>
           </rect>
@@ -151,20 +154,207 @@
           <string>Вернуть в исходное положение</string>
          </property>
         </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>141</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Повернуть на угол:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>230</y>
+           <width>291</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Поместить центр на координаты:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_3">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>400</y>
+           <width>291</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Переместить центр на:</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="tab_2">
         <attribute name="title">
          <string>Game</string>
         </attribute>
+        <widget class="QWidget" name="horizontalLayoutWidget_3">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>20</y>
+           <width>371</width>
+           <height>80</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Цвет клетки a1:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>green</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="horizontalLayoutWidget_5">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>110</y>
+           <width>371</width>
+           <height>80</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Цвет клетки h1:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>red</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QPushButton" name="gameInitialStateButton">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>570</y>
+           <width>281</width>
+           <height>71</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Вернуть в исходное состояние</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="horizontalLayoutWidget_6">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>280</y>
+           <width>214</width>
+           <height>80</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLineEdit" name="curPosLetter">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="currPosNumber">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>8</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="horizontalLayoutWidget_7">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>420</y>
+           <width>214</width>
+           <height>80</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLineEdit" name="nextPosLetter"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="nextPosNumber">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>8</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QLabel" name="label_8">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>250</y>
+           <width>201</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Текущая позиции шашки:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_9">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>390</y>
+           <width>271</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string> Позиция, на которую переместить:</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="tab_3">
         <attribute name="title">
-         <string>Light</string>
+         <string/>
         </attribute>
        </widget>
        <widget class="QWidget" name="tab_4">
         <attribute name="title">
-         <string>Camera</string>
+         <string/>
         </attribute>
        </widget>
       </widget>
@@ -196,8 +386,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1646</width>
-     <height>22</height>
+     <width>1737</width>
+     <height>29</height>
     </rect>
    </property>
   </widget>

@@ -25,6 +25,58 @@ MainWindow::MainWindow(QWidget *parent)
 
     renderer->draw_initial_image(pxmp, scene->get_all_models(), scene->get_light_sources());//method to draw image
     ui->labelView->setPixmap(*pxmp);
+
+    // Подключаем сигналы от спинбоксов к слоту
+       /*connect(ui->angleX, SIGNAL(valueChanged(double)), this, SLOT(onAnglesChanged()));
+       connect(ui->angleY, SIGNAL(valueChanged(double)), this, SLOT(onAnglesChanged()));
+       connect(ui->angleZ, SIGNAL(valueChanged(double)), this, SLOT(onAnglesChanged()));
+       */
+
+       connect(ui->buttonRotate, &QPushButton::clicked, this, &MainWindow::onRotateButtonClicked);
+
+
+}
+
+/*void MainWindow::onAnglesChanged()
+{
+    // Получаем значения углов
+    float angleX = ui->angleX->value();
+    float angleY = ui->angleY->value();
+    float angleZ = ui->angleZ->value();
+
+    // Поворачиваем все модели
+    QVector3D angle = {angleX, angleY, angleZ};
+    this->scene->rotate_composition(angle);
+
+    // Обновляем сцену
+    updateScene();
+}*/
+
+void MainWindow::onRotateButtonClicked()
+{
+    // Получаем значения углов
+    float angleX = ui->angleX->value();
+    float angleY = ui->angleY->value();
+    float angleZ = ui->angleZ->value();
+
+    // Поворачиваем все модели
+    QVector3D angle = {angleX, angleY, angleZ};
+    this->scene->rotate_composition(angle);
+
+    // Обновляем сцену
+    updateScene();
+}
+
+void MainWindow::updateScene()
+{
+    // Очищаем изображение
+    img->fill(QColor(212, 116, 121));
+    *pxmp = QPixmap::fromImage(*img);
+
+    // Перерисовываем сцену
+    Light light = scene->get_light_sources();
+    renderer->render_all_models(pxmp, scene->get_all_models(), light);
+    ui->labelView->setPixmap(*pxmp);
 }
 
 MainWindow::~MainWindow()

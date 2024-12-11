@@ -35,6 +35,11 @@ private:
     Scene *scene;
     Camera *camera;
 
+private slots:
+    //void onAnglesChanged();  // новый слот для обработки изменения углов
+    void onRotateButtonClicked();
+    void updateScene();      // метод для перерисовки сцены
+
 
 signals:
 

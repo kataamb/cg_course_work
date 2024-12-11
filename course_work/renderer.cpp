@@ -310,7 +310,7 @@ void Renderer::render_all_models(QPixmap *pxmp, std::vector<Model3D> models, Lig
         }
 }
 
-double calculateZ(const Edge3D& edge, double x, double y) {
+/*double calculateZ(const Edge3D& edge, double x, double y) {
     // Уравнение плоскости: ax + by + cz + d = 0
     // Отсюда: z = -(ax + by + d) / c
 
@@ -331,6 +331,24 @@ double calculateZ(const Edge3D& edge, double x, double y) {
     double z = -(normal.x() * x + normal.y() * y + d) / normal.z();
 
     return z;
+}*/
+
+double calculateZ(const Edge3D& edge, double x, double y) {
+    QVector4D normal = edge._plane_normal;
+    QVector4D point = edge._points[0];
+
+    if (std::abs(normal.z()) < EPS) {  // используем EPS вместо qFuzzyIsNull
+        return point.z();
+    }
+
+    double d = -(normal.x() * point.x() +
+                 normal.y() * point.y() +
+                 normal.z() * point.z());
+
+    double z = -(normal.x() * x + normal.y() * y + d) / normal.z();
+
+    // Добавляем небольшое смещение для избежания артефактов
+    return z + EPS;
 }
 
 void Renderer::render_edge(QPixmap *pxmp, QPainter & painter, Model3D & model, Edge3D & edge, Color color, Light light)
@@ -412,7 +430,7 @@ void Renderer::render_edge(QPixmap *pxmp, QPainter & painter, Model3D & model, E
             //painter.setPen(QPen(QColor(resCol.getI_R(), resCol.getI_G(), resCol.getI_B()), Qt::DashLine));
             //painter.drawPoint(QPointF(x, yCount));
             double z = calculateZ(edge, x, yCount);
-            if (this->zBuf[x][yCount] >= z)
+            if (this->zBuf[x][yCount] >= (z+EPS))
             {
                 painter.setPen(QPen(QColor(resCol.getI_R(), resCol.getI_G(), resCol.getI_B()), Qt::DashLine));
                 painter.drawPoint(QPointF(x, yCount));
@@ -610,8 +628,6 @@ Color Renderer::interpolate_color(float x1, float x2, float x, const Color &col1
 
     return col;
 }
-
-
 
 
 //--------------------
