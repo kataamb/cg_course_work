@@ -253,8 +253,8 @@
         <widget class="QPushButton" name="gameInitialStateButton">
          <property name="geometry">
           <rect>
-           <x>100</x>
-           <y>570</y>
+           <x>90</x>
+           <y>600</y>
            <width>281</width>
            <height>71</height>
           </rect>
@@ -278,6 +278,9 @@
             <property name="text">
              <string/>
             </property>
+            <property name="maxLength">
+             <number>1</number>
+            </property>
            </widget>
           </item>
           <item>
@@ -299,14 +302,21 @@
          <property name="geometry">
           <rect>
            <x>100</x>
-           <y>420</y>
+           <y>400</y>
            <width>214</width>
            <height>80</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QLineEdit" name="nextPosLetter"/>
+           <widget class="QLineEdit" name="nextPosLetter">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="maxLength">
+             <number>1</number>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QSpinBox" name="nextPosNumber">
@@ -337,13 +347,26 @@
          <property name="geometry">
           <rect>
            <x>100</x>
-           <y>390</y>
+           <y>370</y>
            <width>271</width>
            <height>19</height>
           </rect>
          </property>
          <property name="text">
           <string> Позиция, на которую переместить:</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="makeMoveButton">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>510</y>
+           <width>111</width>
+           <height>71</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Сделать ход</string>
          </property>
         </widget>
        </widget>

@@ -34,6 +34,21 @@ void MathTransformation::rotate_model( Model3D & model, QVector3D angle, QVector
     rotate_point(model._centre, angle, centre);
 
 }
+
+void MathTransformation::rotate_model_backward(Model3D &model, QVector3D angle, QVector4D centre)
+{
+    for (auto & edge: model._edges)
+    {
+        for (auto& point: edge._points)
+        {
+            rotate_point_backward(point, angle, centre);
+        }
+        edge.calculate_normal();
+    }
+    rotate_point_backward(model._centre, angle, centre);
+
+}
+
 void MathTransformation::move_model_on_pos( Model3D & model, QVector3D newPos )
 {
     QVector3D bias {newPos[0] - model._centre[0], newPos[1] - model._centre[1], newPos[2] - model._centre[2]};
@@ -94,6 +109,17 @@ void MathTransformation::rotate_point( QVector4D &point, QVector3D angle, QVecto
     rotate_vector_x(vector_bias, angle[0]);
     rotate_vector_y(vector_bias, angle[1]);
     rotate_vector_z(vector_bias, angle[2]);
+
+    point = {centre[0] + vector_bias[0], centre[1] + vector_bias[1], centre[2] + vector_bias[2], 1};
+}
+
+void MathTransformation::rotate_point_backward( QVector4D &point, QVector3D angle, QVector4D centre )
+{
+    QVector4D vector_bias=  {point[0] - centre[0], point[1] - centre[1], point[2] - centre[2], 0};
+    vector_bias = -vector_bias;
+    rotate_vector_z(vector_bias, angle[2]);
+    rotate_vector_y(vector_bias, angle[1]);
+    rotate_vector_x(vector_bias, angle[0]);
 
     point = {centre[0] + vector_bias[0], centre[1] + vector_bias[1], centre[2] + vector_bias[2], 1};
 }

@@ -1,12 +1,13 @@
 #include "gamecheck.h"
 
-GameCheck::GameCheck(CheckColor color)
+GameCheck::GameCheck()
 {
-    this->checkColor = color;
+    //this->checkColor = color;
 }
 
-GameCheck::GameCheck(CheckColor color, std::pair<char, int> init)
+GameCheck::GameCheck(int id, CheckColor color, std::pair<int, int> init)
 {
+    this->id = id;
     this->checkColor = color;
     this->initCoordinate = init;
     this->currCoordinate = init;

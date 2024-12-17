@@ -4,20 +4,18 @@
 #include "checkcoordinate.h"
 #include <utility>
 
-enum CheckColor {
-    black, white
-};
+#include "gamecheckcolor.h"
 
 struct GameCheck
 {
 public:
-    GameCheck(CheckColor color);
-    GameCheck(CheckColor color, std::pair<char, int> init);
-    /*GameCheck(CheckColor color, CheckCoordinate init);
-    CheckCoordinate initCoordinate;
-    CheckCoordinate currCoordinate;*/
-    std::pair<char, int> initCoordinate;
-    std::pair<char, int> currCoordinate;
+    GameCheck();
+    GameCheck(int id, CheckColor color, std::pair<int, int> init);
+
+    std::pair<int, int> initCoordinate;
+    std::pair<int, int> currCoordinate;
+
+    int id;
 
     enum CheckColor checkColor;
 

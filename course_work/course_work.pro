@@ -9,7 +9,6 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    camera.cpp \
     checkcoordinate.cpp \
     color.cpp \
     edge3d.cpp \
@@ -21,21 +20,23 @@ SOURCES += \
     mathtransformation.cpp \
     model3d.cpp \
     modelbuilder.cpp \
+    performancetester.cpp \
     renderer.cpp \
     scene.cpp
 
 HEADERS += \
-    camera.h \
     checkcoordinate.h \
     color.h \
     edge3d.h \
     gamecheck.h \
+    gamecheckcolor.h \
     gamemanager.h \
     light.h \
     mainwindow.h \
     mathtransformation.h \
     model3d.h \
     modelbuilder.h \
+    performancetester.h \
     renderer.h \
     scene.h
 

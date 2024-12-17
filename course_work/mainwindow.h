@@ -5,10 +5,16 @@
 #include <QImage>
 #include <QPixmap>
 
+#include <QMessageBox>
+
 //#include <QObject>
 #include "renderer.h"
 #include "scene.h"
-#include "camera.h"
+#include "gamemanager.h"
+
+#include "gamecheckcolor.h"
+
+#include "performancetester.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,6 +30,8 @@ public:
     int getWidth(){return imWidth;}
     int getHeight(){return imHeight;}
 
+    void runPerformanceTest();
+
 private:
     Ui::MainWindow *ui;
     QImage *img;
@@ -33,13 +41,18 @@ private:
 
     Renderer *renderer;
     Scene *scene;
-    Camera *camera;
+    GameManager *gameManager;
+
+    std::pair<int, int> convertPosition(std::pair<char, int> position);
 
 private slots:
-    //void onAnglesChanged();  // новый слот для обработки изменения углов
     void onRotateButtonClicked();
+    //------------------
+    void onMakeMoveButtonClicked();
+    //------------------
     void updateScene();      // метод для перерисовки сцены
-
+    //-----------------
+    void onGameInitialStateButtonClicked();
 
 signals:
 

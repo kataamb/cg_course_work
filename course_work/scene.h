@@ -7,6 +7,10 @@
 #include "light.h"
 #include "mathtransformation.h"
 
+#include "gamecheckcolor.h"
+
+#include "gamecheck.h"
+
 class Scene : public QObject
 {
     Q_OBJECT
@@ -16,36 +20,33 @@ public:
 
     void make_initial_state();
 
-    //void add_light_source(Light light);
-
     Light get_light_sources();
 
     void rotate_composition(QVector3D angle);
-    /*void rotate();
-    void move();
-    void move_check();*/
+    void rotate_composition_backward(QVector3D angle);
+
+    void update_scene_with_checks(const std::map<std::pair<int, int>, GameCheck>& checksOnPositions);
+
 private:
     std::vector<Model3D> chessBoardSquares;
     std::vector<Model3D> whiteChecks;
     std::vector<Model3D> blackChecks;
 
-    //std::vector<Light> lightSources;
     Light lightSource;
-
 
     QVector3D centreScene;
 
     MathTransformation _positionChanger;
 
-
-
     QVector4D _centreComposition;
 
-    QVector4D _initialAngle;
+    QVector3D _initialAngle;
 
-    QVector4D _currentAngle;
+    QVector3D _currentAngle;
 
+    QVector4D _currentBias;
 
+    float _squareLength;
 
 
 signals:

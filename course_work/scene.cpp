@@ -15,9 +15,17 @@ Scene::Scene(QObject *parent)
 void Scene::make_initial_state()
 {
     float square_length = 100;
+    _squareLength = square_length;
+
     std::map<int, QColor> color_square {{0, QColor(255, 255, 240)}, {1, QColor(131, 86, 62)}};
 
     this->_centreComposition = {this->centreScene[0], this->centreScene[1], this->centreScene[2], 1};
+
+    this->_currentAngle = this->_initialAngle = {0, 0, 0};
+
+    this->_currentBias = {0, 0, 0, 0};
+
+    this->_currentAngle += {45, 0, 180};
 
     ModelCubeBuilder cubeBuilder;
     ModelCheckBuilder checkBuilder;
@@ -43,11 +51,12 @@ void Scene::make_initial_state()
             QVector3D bias{xcurr, ycurr, 0};
             this->_positionChanger.move_model_on_pos(curr_model, bias);
 
-            this->_positionChanger.rotate_model(curr_model, {45, 0, 180}, this->_centreComposition);
+            this->_positionChanger.rotate_model(curr_model, this->_currentAngle, this->_centreComposition);
             this->chessBoardSquares.push_back(curr_model);
 
         }
     }
+
 
     // Параметры шашек - увеличиваем размеры
     float check_height = 50;  // увеличиваем высоту
@@ -76,16 +85,16 @@ void Scene::make_initial_state()
                 this->_positionChanger.rotate_model(check, {270, 0, 0}, check._centre);
                 //this->_positionChanger.rotate_model(check, {90, 0, 0}, check._centre);
 
-                this->_positionChanger.rotate_model(check, {45, 0, 180}, this->_centreComposition);
+                this->_positionChanger.rotate_model(check, this->_currentAngle, this->_centreComposition);
 
                 whiteChecks.push_back(check);
-
-                // Отладочный вывод
-                std::cout << "White check added at: " << xcurr << ", " << ycurr << ", " << zcurr << std::endl;
+                std::cout<<row<<" "<< col<<std::endl;
 
             }
         }
     }
+
+    std::cout<<std::endl;
 
     // Создание черных шашек
     for (int row = 5; row < 8; ++row)
@@ -110,19 +119,14 @@ void Scene::make_initial_state()
                 //this->_positionChanger.rotate_model(check, {180, 0, 0}, check._centre);
                 this->_positionChanger.rotate_model(check, {270, 0, 0}, check._centre);
 
-                this->_positionChanger.rotate_model(check, {45, 0, 180}, this->_centreComposition);
+                this->_positionChanger.rotate_model(check, this->_currentAngle, this->_centreComposition);
 
                 blackChecks.push_back(check);
-
-                // Отладочный вывод
-                //std::cout << "Black check added at: " << xcurr << ", " << ycurr << ", " << zcurr << std::endl;
+                std::cout<<row<<" "<< col<<std::endl;
             }
         }
     }
 
-    // Отладочный вывод количества созданных шашек
-    std::cout << "White checks created: " << whiteChecks.size() << std::endl;
-    std::cout << "Black checks created: " << blackChecks.size() << std::endl;
 }
 
 void Scene::rotate_composition(QVector3D angle)
@@ -141,6 +145,127 @@ void Scene::rotate_composition(QVector3D angle)
     {
         this->_positionChanger.rotate_model(model, angle, this->_centreComposition);
     }
+
+    this->_currentAngle += angle;
+    for (int i = 0; i < 3; ++i)
+    {
+        if (this->_currentAngle[i] > 360)
+        {
+            this->_currentAngle[i] -= 360;
+        }
+    }
+}
+
+void Scene::rotate_composition_backward(QVector3D angle)
+{
+    for (auto& model : this->chessBoardSquares)
+    {
+        this->_positionChanger.rotate_model_backward(model, angle, this->_centreComposition);
+    }
+
+    for (auto& model : this->whiteChecks)
+    {
+        this->_positionChanger.rotate_model_backward(model, angle, this->_centreComposition);
+    }
+
+    for (auto& model : this->blackChecks)
+    {
+        this->_positionChanger.rotate_model_backward(model, angle, this->_centreComposition);
+    }
+
+    /*this->_currentAngle -= angle;
+    for (int i = 0; i < 3; ++i)
+    {
+        if (this->_currentAngle[i] < 360)
+        {
+            this->_currentAngle[i] += 360;
+        }
+    }*/
+}
+
+void Scene::update_scene_with_checks(const std::map<std::pair<int, int>, GameCheck>& checksOnPositions)
+{
+    //remember angle
+     QVector3D currAngle = this->_currentAngle;
+
+    // Очищаем текущие шашки и доску
+    this->chessBoardSquares.clear();
+    this->whiteChecks.clear();
+    this->blackChecks.clear();
+
+     ModelCubeBuilder cubeBuilder;
+     std::map<int, QColor> color_square {{0, QColor(255, 255, 240)}, {1, QColor(131, 86, 62)}};
+
+    // Создаем доску заново
+    for (int i = 0; i < 8; ++i)
+    {
+        for (int j = 0; j < 8; ++j)
+        {
+            QColor color_body;
+            if (i==0 && j == 0)
+                color_body = Qt::red;
+            else if (i == 7 && j == 0)
+                color_body = Qt::green;
+            else
+                color_body = color_square[(i + j)%2];
+
+            Model3D curr_model = cubeBuilder.build_cube(_squareLength, color_body, color_body);
+
+            float xcurr = this->_centreComposition[0] + (i - 3.5f) * _squareLength;
+            float ycurr = this->_centreComposition[1] + (j - 3.5f) * _squareLength;
+
+            QVector3D bias{xcurr, ycurr, 0};
+            this->_positionChanger.move_model_on_pos(curr_model, bias);
+
+            this->chessBoardSquares.push_back(curr_model);
+
+        }
+    }
+
+    // Параметры шашек
+    float check_height = 50;  // высота шашек
+    float check_radius = _squareLength / 2.5;  // радиус шашек
+
+    // Проходим по всем шашкам в checksOnPositions и добавляем их на сцену
+    for (const auto& entry : checksOnPositions)
+    {
+        const auto& position = entry.first; // Позиция шашки (строка, столбец)
+        const GameCheck& check = entry.second; // Шашка
+
+        // Определяем цвет шашки
+        QColor color_body = (check.checkColor == white) ? Qt::white : QColor(69, 50, 46);
+
+        // Создаем шашку
+        ModelCheckBuilder checkBuilder;
+        Model3D newCheck = checkBuilder.build_check(check_radius, check_radius / 4, check_height, 50, 50, color_body, color_body);
+
+        // Вычисляем позицию на доске
+        float xcurr = this->_centreComposition[0] + (position.second - 3.5f) * _squareLength; // столбец
+        float ycurr = this->_centreComposition[1] + (position.first - 3.5f) * _squareLength; // строка
+        float zcurr = -_squareLength / 2;  // отрицательное значение Z
+
+        QVector3D bias{xcurr, ycurr, zcurr};
+        this->_positionChanger.move_model_on_pos(newCheck, bias);
+
+        // Поворачиваем шашку, чтобы она стояла на доске
+        this->_positionChanger.rotate_model(newCheck, {270, 0, 0}, newCheck._centre);
+
+        // Добавляем шашку в соответствующий вектор
+        if (check.checkColor == white)
+        {
+            whiteChecks.push_back(newCheck);
+        }
+        else
+        {
+            blackChecks.push_back(newCheck);
+        }
+    }
+
+    this->rotate_composition(currAngle);
+    this->_currentAngle = currAngle;
+
+    // Обновляем текущий угол, если необходимо
+    //this->_currentAngle = this->_initialAngle; // или установите нужный угол
 }
 
 std::vector<Model3D> Scene::get_all_models()

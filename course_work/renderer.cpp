@@ -310,29 +310,6 @@ void Renderer::render_all_models(QPixmap *pxmp, std::vector<Model3D> models, Lig
         }
 }
 
-/*double calculateZ(const Edge3D& edge, double x, double y) {
-    // Уравнение плоскости: ax + by + cz + d = 0
-    // Отсюда: z = -(ax + by + d) / c
-
-    QVector4D normal = edge._plane_normal;
-    QVector4D point = edge._points[0];  // Берем любую точку грани
-
-    // Если нормаль к плоскости параллельна оси Z
-    if (qFuzzyIsNull(normal.z())) {
-        return point.z();  // Возвращаем z-координату любой точки грани
-    }
-
-    // Находим d из уравнения плоскости, подставив координаты известной точки
-    double d = -(normal.x() * point.x() +
-                normal.y() * point.y() +
-                normal.z() * point.z());
-
-    // Вычисляем z-координату
-    double z = -(normal.x() * x + normal.y() * y + d) / normal.z();
-
-    return z;
-}*/
-
 double calculateZ(const Edge3D& edge, double x, double y) {
     QVector4D normal = edge._plane_normal;
     QVector4D point = edge._points[0];
@@ -634,18 +611,12 @@ Color Renderer::interpolate_color(float x1, float x2, float x, const Color &col1
 
 void Renderer::draw_initial_image(QPixmap *pxmp, std::vector<Model3D> models, Light light)
 {
-    //paint_carcas(pxmp);
-    //:(
     for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 zBuf[y][x] = std::numeric_limits<double>::max();
             }
         }
-    //paint_carcas_all(pxmp, models);
-    //fill_color_edges(pxmp, models);
+
     this->render_all_models(pxmp, models, light);
-    //paint_carcas_all(pxmp, models);
-
-
 }
 
