@@ -142,7 +142,7 @@ void MainWindow::onMakeMoveButtonClicked() {
     std::cout << "difference: " << abs(currPos.first - nextPos.first) << " " << abs(currPos.second - nextPos.second) << std::endl;
     if (abs(currPos.first - nextPos.first) != abs(currPos.second - nextPos.second))
     {
-        QMessageBox::warning(this, "Ошибка", "Недопустимый ход");
+        QMessageBox::warning(this, "Ошибка", " Недопустимый ход       ");
         return;
     }
 

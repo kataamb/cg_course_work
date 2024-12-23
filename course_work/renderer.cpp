@@ -335,13 +335,10 @@ void Renderer::render_edge(QPixmap *pxmp, QPainter & painter, Model3D & model, E
     sort_points_y(triangle_points);
     p1 = triangle_points[0], p2 = triangle_points[1], p3 = triangle_points[2];
 
-    // Вычисляем нормали
     QVector4D n1 = model.getVertexNormal(p1);
-       QVector4D n2 = model.getVertexNormal(p2);
-       QVector4D n3 = model.getVertexNormal(p3);
+    QVector4D n2 = model.getVertexNormal(p2);
+    QVector4D n3 = model.getVertexNormal(p3);
 
-
-    // Вычисляем интенсивность цвета для каждой вершины
     Color c0 = calculate_intensity(color, 0.9, n1, light);
     Color c1 = calculate_intensity(color, 0.9, n2, light);
     Color c2 = calculate_intensity(color, 0.9, n3, light);
@@ -351,7 +348,6 @@ void Renderer::render_edge(QPixmap *pxmp, QPainter & painter, Model3D & model, E
     int yStart = static_cast<int>(p1[1]);
     int yEnd = static_cast<int>(p3[1]);
 
-    // Проходим по всем строкам треугольника
     for (int yCount = yStart; yCount <= yEnd; yCount++) {
         y = static_cast<float>(yCount);
         if (yCount < 0 || yCount >= this->height) continue;
@@ -362,7 +358,6 @@ void Renderer::render_edge(QPixmap *pxmp, QPainter & painter, Model3D & model, E
         if (!res) continue;
 
         int xStart, xEnd;
-        // Определяем начальную и конечную точки для текущей строки
         if (below1) {
             if (x1 < x2) {
                 xStart = std::max(0, static_cast<int>(x1));
@@ -392,20 +387,13 @@ void Renderer::render_edge(QPixmap *pxmp, QPainter & painter, Model3D & model, E
             }
         }
 
-        // Рисуем пиксели для текущей строки
         for (int x = xStart; x <= xEnd; x++) {
             std::vector<double> bary = barycentric(p1, p2, p3, x, y);
 
-            // Проверяем, что точка внутри треугольника
             if (bary[0] < 0 || bary[1] < 0 || bary[2] < 0)
                 continue;
 
-            // Интерполируем цвет
             resCol = interpolate_color(xStart, xEnd, (float)x, colXstart, colXend);
-
-            // Отрисовка пикселя
-            //painter.setPen(QPen(QColor(resCol.getI_R(), resCol.getI_G(), resCol.getI_B()), Qt::DashLine));
-            //painter.drawPoint(QPointF(x, yCount));
             double z = calculateZ(edge, x, yCount);
             if (this->zBuf[x][yCount] >= (z+EPS))
             {
@@ -455,61 +443,17 @@ Color Renderer::calculate_phong_lighting(const Color &materialColor,
     result.setI_B(materialColor.getB() * intensity);
 
     float lightIntensity = light.getI();
-       result.setI_R(materialColor.getR() * intensity * lightIntensity);
-       result.setI_G(materialColor.getG() * intensity * lightIntensity);
-       result.setI_B(materialColor.getB() * intensity * lightIntensity);
+    result.setI_R(materialColor.getR() * intensity * lightIntensity);
+    result.setI_G(materialColor.getG() * intensity * lightIntensity);
+    result.setI_B(materialColor.getB() * intensity * lightIntensity);
 
     return result;
 }
 
 Color Renderer::calculate_intensity(const Color &color, float mProp, const QVector4D normal, const Light &light)
-{
-    /*Color col(color.getR(), color.getG(), color.getB());
-
-    col.setI_R(mProp * color.getI_R());
-    col.setI_G(mProp * color.getI_G());
-    col.setI_B(mProp * color.getI_B());
-
-    float dotProd = mth.scalarProduct(light.getDir(), normal);
-    float kD = std::max(0.0f, dotProd);
-
-    col.setI_R(std::min(255.0f, col.getI_R() + mProp * color.getR() * kD));
-    col.setI_G(std::min(255.0f, col.getI_G() + mProp * color.getG() * kD));
-    col.setI_B(std::min(255.0f, col.getI_B() + mProp * color.getB() * kD));
-
-    return col;*/
-    /*float ambientStrength = 0.3f;
-       float diffuseStrength = 0.7f;
-       float specularStrength = 0.5f;
-       float shininess = 32.0f;
-
-       QVector4D normalizedNormal = normal.normalized();
-       QVector4D normalizedLightDir = light.getDir().normalized();
-
-       // Ambient
-       Color col(color.getR(), color.getG(), color.getB());
-       col.setI_R(ambientStrength * color.getI_R());
-       col.setI_G(ambientStrength * color.getI_G());
-       col.setI_B(ambientStrength * color.getI_B());
-
-       // Diffuse
-       float diff = std::max(QVector4D::dotProduct(normalizedNormal, normalizedLightDir), 0.0f);
-
-       // Specular
-       QVector4D viewDir(0, 0, 1, 0);  // Направление взгляда
-       QVector4D reflectDir = 2.0f * QVector4D::dotProduct(normalizedLightDir, normalizedNormal) * normalizedNormal - normalizedLightDir;
-       float spec = std::pow(std::max(QVector4D::dotProduct(viewDir, reflectDir), 0.0f), shininess);
-
-       // Комбинируем все компоненты
-       float totalIntensity = ambientStrength + diff * diffuseStrength + spec * specularStrength;
-
-       col.setI_R(std::min(255.0f, color.getR() * totalIntensity * light.getI()));
-       col.setI_G(std::min(255.0f, color.getG() * totalIntensity * light.getI()));
-       col.setI_B(std::min(255.0f, color.getB() * totalIntensity * light.getI()));
-
-       return col;*/
-    float ambientStrength = 0.7f;  // было 0.2
-        float diffuseStrength = 0.9f;  // было не задано явно
+{   
+        float ambientStrength = 0.7f;
+        float diffuseStrength = 0.9f;
 
         Color col(color.getR(), color.getG(), color.getB());
 

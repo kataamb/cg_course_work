@@ -203,6 +203,7 @@ public:
         tabWidget->addTab(tabView, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
+        tab_2->setEnabled(true);
         horizontalLayoutWidget_3 = new QWidget(tab_2);
         horizontalLayoutWidget_3->setObjectName(QString::fromUtf8("horizontalLayoutWidget_3"));
         horizontalLayoutWidget_3->setGeometry(QRect(40, 20, 371, 80));
@@ -289,9 +290,11 @@ public:
         tabWidget->addTab(tab_2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        tab_3->setEnabled(true);
         tabWidget->addTab(tab_3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));
+        tab_4->setEnabled(true);
         tabWidget->addTab(tab_4, QString());
 
         gridLayout->addWidget(tabWidget, 0, 0, 1, 1);
@@ -336,9 +339,9 @@ public:
         label_3->setText(QCoreApplication::translate("MainWindow", "\320\237\320\265\321\200\320\265\320\274\320\265\321\201\321\202\320\270\321\202\321\214 \321\206\320\265\320\275\321\202\321\200 \320\275\320\260:", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tabView), QCoreApplication::translate("MainWindow", "View", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "\320\246\320\262\320\265\321\202 \320\272\320\273\320\265\321\202\320\272\320\270 a1:", nullptr));
-        label_5->setText(QCoreApplication::translate("MainWindow", "green", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "\320\267\320\265\320\273\321\221\320\275\321\213\320\271", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "\320\246\320\262\320\265\321\202 \320\272\320\273\320\265\321\202\320\272\320\270 h1:", nullptr));
-        label_7->setText(QCoreApplication::translate("MainWindow", "red", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "\320\272\321\200\320\260\321\201\320\275\321\213\320\271", nullptr));
         gameInitialStateButton->setText(QCoreApplication::translate("MainWindow", "\320\222\320\265\321\200\320\275\321\203\321\202\321\214 \320\262 \320\270\321\201\321\205\320\276\320\264\320\275\320\276\320\265 \321\201\320\276\321\201\321\202\320\276\321\217\320\275\320\270\320\265", nullptr));
         curPosLetter->setText(QString());
         nextPosLetter->setText(QString());

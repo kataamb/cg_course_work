@@ -195,6 +195,9 @@
         </widget>
        </widget>
        <widget class="QWidget" name="tab_2">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <attribute name="title">
          <string>Game</string>
         </attribute>
@@ -218,7 +221,7 @@
           <item>
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>green</string>
+             <string>зелёный</string>
             </property>
            </widget>
           </item>
@@ -244,7 +247,7 @@
           <item>
            <widget class="QLabel" name="label_7">
             <property name="text">
-             <string>red</string>
+             <string>красный</string>
             </property>
            </widget>
           </item>
@@ -371,11 +374,17 @@
         </widget>
        </widget>
        <widget class="QWidget" name="tab_3">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <attribute name="title">
          <string/>
         </attribute>
        </widget>
        <widget class="QWidget" name="tab_4">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <attribute name="title">
          <string/>
         </attribute>

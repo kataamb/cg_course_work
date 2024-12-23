@@ -6,7 +6,7 @@
 Scene::Scene(QObject *parent)
     : QObject{parent}
 {
-    this->centreScene = {450, 450, -100};
+    this->centreScene = {500, 400, -100};
     this->lightSource = Light();
 
     make_initial_state();
@@ -25,7 +25,7 @@ void Scene::make_initial_state()
 
     this->_currentBias = {0, 0, 0, 0};
 
-    this->_currentAngle += {45, 0, 180};
+    this->_currentAngle += {30, 0, 180};
 
     ModelCubeBuilder cubeBuilder;
     ModelCheckBuilder checkBuilder;
@@ -173,14 +173,7 @@ void Scene::rotate_composition_backward(QVector3D angle)
         this->_positionChanger.rotate_model_backward(model, angle, this->_centreComposition);
     }
 
-    /*this->_currentAngle -= angle;
-    for (int i = 0; i < 3; ++i)
-    {
-        if (this->_currentAngle[i] < 360)
-        {
-            this->_currentAngle[i] += 360;
-        }
-    }*/
+
 }
 
 void Scene::update_scene_with_checks(const std::map<std::pair<int, int>, GameCheck>& checksOnPositions)

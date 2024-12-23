@@ -94,12 +94,6 @@ ModelTorusBuilder::ModelTorusBuilder(QObject *parent)
 
 Model3D ModelTorusBuilder::build_torus(float R, float r, int N, int M, QColor bodyColor , QColor boardColor)
 {
-    std::map<int, QColor> color_square {{0, Qt::white}, {1, Qt::black},
-                                       {2, QColor(Qt::red)}, {3, QColor(Qt::yellow)},
-                                       {4, QColor(Qt::green)}, {5, QColor(Qt::cyan)},
-                                       {6, QColor(Qt::blue)}, {7, QColor(Qt::magenta)}
-
-                                       };
     Model3D torus;
     QVector<QVector4D> torusPoints;
     QVector<QVector<QVector4D>> torusByPoints;
@@ -112,8 +106,6 @@ Model3D ModelTorusBuilder::build_torus(float R, float r, int N, int M, QColor bo
         float x = r * cos(j* 2 * M_PI / M);
         float y = r * sin(j * 2 * M_PI / M);
         float z = 0;
-
-        //std::cout << j << " " << j * 2 * M_PI / M << std::endl;
 
         circlePoints.push_back({x, y, z, 1});
     }
