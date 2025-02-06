@@ -14,6 +14,12 @@ Scene::Scene(QObject *parent)
 
 void Scene::make_initial_state()
 {
+
+    //---
+    this->chessBoardSquares.clear();
+    this->whiteChecks.clear();
+    this->blackChecks.clear();
+    //--
     float square_length = 100;
     _squareLength = square_length;
 
@@ -175,6 +181,47 @@ void Scene::rotate_composition_backward(QVector3D angle)
 
 
 }
+
+void Scene::move_all_models(const QVector3D& newPosition) {
+    // Перемещаем все шашки
+    for (auto& model : this->chessBoardSquares) {
+        this->_positionChanger.move_model(model, newPosition);
+    }
+
+    for (auto& model : this->whiteChecks) {
+        this->_positionChanger.move_model(model, newPosition);
+    }
+
+    for (auto& model : this->blackChecks) {
+        this->_positionChanger.move_model(model, newPosition);
+    }
+
+    QVector3D bias = {newPosition[0] + this->_centreComposition[0], newPosition[1] + this->_centreComposition[1], newPosition[2] + this->_centreComposition[2]};
+    this->_centreComposition = bias;
+}
+
+
+void Scene::move_all_models_on_pos(const QVector3D& newPosition) {
+    // Перемещаем все шашки
+    QVector3D bias = {newPosition[0] - this->_centreComposition[0], newPosition[1] - this->_centreComposition[1], newPosition[2] - this->_centreComposition[2]};
+    for (auto& model : this->chessBoardSquares) {
+
+        this->_positionChanger.move_model(model, bias);
+    }
+
+    for (auto& model : this->whiteChecks) {
+
+        this->_positionChanger.move_model(model, bias);
+    }
+
+    for (auto& model : this->blackChecks) {
+
+        this->_positionChanger.move_model(model, bias);
+    }
+
+    this->_centreComposition = newPosition;
+}
+
 
 void Scene::update_scene_with_checks(const std::map<std::pair<int, int>, GameCheck>& checksOnPositions)
 {

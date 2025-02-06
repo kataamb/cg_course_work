@@ -38,6 +38,7 @@ GameManager::GameManager(QObject *parent)
 
 }
 
+
 void GameManager::return_initial_game()
 {
     this->checksOnPositions.clear();

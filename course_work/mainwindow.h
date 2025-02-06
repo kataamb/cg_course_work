@@ -47,12 +47,17 @@ private:
 
 private slots:
     void onRotateButtonClicked();
+    void onMovePosButtonClicked();
+    void onButtonMoveBiasClicked();
     //------------------
     void onMakeMoveButtonClicked();
     //------------------
     void updateScene();      // метод для перерисовки сцены
     //-----------------
     void onGameInitialStateButtonClicked();
+    //---------------
+    void onButtoninitialStateClicked();
+
 
 signals:
 

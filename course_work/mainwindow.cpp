@@ -32,14 +32,62 @@ MainWindow::MainWindow(QWidget *parent)
     ui->labelView->setPixmap(*pxmp);
 
     connect(ui->buttonRotate, &QPushButton::clicked, this, &MainWindow::onRotateButtonClicked);
+
+    connect(ui->buttonMovePos, &QPushButton::clicked, this, &MainWindow::onMovePosButtonClicked);
+
+    connect(ui->buttonMoveBias, &QPushButton::clicked, this, &MainWindow::onButtonMoveBiasClicked);
+
+
+    //------------
+
     connect(ui->makeMoveButton, &QPushButton::clicked, this, &MainWindow::onMakeMoveButtonClicked);
 
     connect(ui->gameInitialStateButton, &QPushButton::clicked, this, &MainWindow::onGameInitialStateButtonClicked);
 
+
+    connect(ui->buttoninitialState, &QPushButton::clicked, this, &MainWindow::onButtoninitialStateClicked);
     //runPerformanceTest(); // make measures
     //printCurrentWorkingDirectory();
 
 }
+
+
+void MainWindow::onButtoninitialStateClicked()
+{
+
+    this->scene->make_initial_state();
+    this->gameManager->return_initial_game();
+    // Обновляем сцену
+    updateScene();
+}
+
+void MainWindow::onButtonMoveBiasClicked()
+{
+    float x = ui->biasX->value();
+    float y = ui->biasY->value();
+    float z = ui->biasZ->value();
+
+
+    QVector3D newPosition(x, y, z);
+    this->scene->move_all_models(newPosition);
+
+    // Обновляем сцену
+    updateScene();
+}
+
+void MainWindow::onMovePosButtonClicked() {
+    float x = ui->newPosX->value();
+    float y = ui->newPosY->value();
+    float z = ui->newPosZ->value();
+
+    // Перемещаем все модели в сцене
+    QVector3D newPosition(x, y, z);
+    this->scene->move_all_models_on_pos(newPosition);
+
+    // Обновляем сцену
+    updateScene();
+}
+
 
 void MainWindow::onRotateButtonClicked()
 {

@@ -111,16 +111,22 @@ public:
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
         newPosX = new QDoubleSpinBox(horizontalLayoutWidget_4);
         newPosX->setObjectName(QString::fromUtf8("newPosX"));
+        newPosX->setMinimum(-500.000000000000000);
+        newPosX->setMaximum(700.000000000000000);
 
         horizontalLayout_4->addWidget(newPosX);
 
         newPosY = new QDoubleSpinBox(horizontalLayoutWidget_4);
         newPosY->setObjectName(QString::fromUtf8("newPosY"));
+        newPosY->setMinimum(-500.000000000000000);
+        newPosY->setMaximum(700.000000000000000);
 
         horizontalLayout_4->addWidget(newPosY);
 
         newPosZ = new QDoubleSpinBox(horizontalLayoutWidget_4);
         newPosZ->setObjectName(QString::fromUtf8("newPosZ"));
+        newPosZ->setMinimum(-500.000000000000000);
+        newPosZ->setMaximum(700.000000000000000);
 
         horizontalLayout_4->addWidget(newPosZ);
 
@@ -321,7 +327,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

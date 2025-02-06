@@ -24,6 +24,9 @@ public:
 
     void rotate_composition(QVector3D angle);
     void rotate_composition_backward(QVector3D angle);
+    void move_all_models(const QVector3D& newPosition);
+
+    void move_all_models_on_pos(const QVector3D& newPosition);
 
     void update_scene_with_checks(const std::map<std::pair<int, int>, GameCheck>& checksOnPositions);
 

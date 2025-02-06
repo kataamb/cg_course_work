@@ -27,7 +27,7 @@
      <item row="0" column="0">
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tabView">
         <attribute name="title">
@@ -44,13 +44,34 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QDoubleSpinBox" name="newPosX"/>
+           <widget class="QDoubleSpinBox" name="newPosX">
+            <property name="minimum">
+             <double>-500.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>700.000000000000000</double>
+            </property>
+           </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="newPosY"/>
+           <widget class="QDoubleSpinBox" name="newPosY">
+            <property name="minimum">
+             <double>-500.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>700.000000000000000</double>
+            </property>
+           </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="newPosZ"/>
+           <widget class="QDoubleSpinBox" name="newPosZ">
+            <property name="minimum">
+             <double>-500.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>700.000000000000000</double>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="buttonMovePos">
